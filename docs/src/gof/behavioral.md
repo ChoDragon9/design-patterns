@@ -26,6 +26,72 @@ category: 패턴
 
 ### 구조 및 구현
 ```ts
+interface Handler {
+    next?: Handler
+    handle(request: string): void
+    setNext(next: Handler): void
+}
+
+abstract class BaseHandler implements Handler {
+    next?: Handler
+    abstract handle(request: string): void
+    handleNext(request: string) {
+       if (this.next) {
+            this.next.handle(request)
+        } 
+    }
+    setNext(next: Handler) {
+        this.next = next
+    }
+}
+
+class ConcreteHandler1 extends BaseHandler {
+    handle(request: string) {
+        if (request === 'First') {
+            console.log('ConcreteHandler1!')
+        } else {
+            this.handleNext(request)
+        }
+    }
+}
+
+class ConcreteHandler2 extends BaseHandler {
+    handle(request: string) {
+        if (request === 'Second') {
+            console.log('ConcreteHandler2!')
+        } else {
+            this.handleNext(request)
+        }
+    }
+}
+
+class ConcreteHandler3 extends BaseHandler {
+    handle(request: string) {
+        if (request === 'Third') {
+            console.log('ConcreteHandler3!')
+        } else {
+            this.handleNext(request)
+        }
+    }
+}
+```
+
+#### 사용자측 코드
+```ts
+class Main {
+    constructor() {
+        const handle1 = new ConcreteHandler1()
+        const handle2 = new ConcreteHandler2()
+        const handle3 = new ConcreteHandler3()
+
+        handle1.setNext(handle2)
+        handle2.setNext(handle3)
+
+        handle1.handle('First') // ConcreteHandler1!
+        handle1.handle('Second') // ConcreteHandler2!
+        handle1.handle('Third') // ConcreteHandler3!
+    }
+}
 ```
 
 #### 협력 방법
