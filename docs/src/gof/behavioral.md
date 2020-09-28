@@ -6,8 +6,200 @@ description: GoF 디자인 패턴 중 행동패턴을 정리합니다.
 tags: [pattern]
 category: 패턴
 ---
+> 출처: 에릭 감마 , 리처드 헬름 , 랄프 존슨 , 존 블리시디스. 『Gof의 디자인 패턴』. 김정아(역). 프로텍미디어, 2015.
+
 # GoF 디자인 패턴 | 행동패턴
-## 이터레이터(Iterator)
+- 어떤 처리의 책임을 어느 객체에 할당하는 것이 좋은지, 알고리즘은 어느 객체에 정의하는 것이 좋은지 다룹니다.
+- 객체들 간의 교류 방법에 대하여 정의한다.
+- **행동 클래스 패턴**은 클래스 사이에 행동 책임을 분산하기 위해서 상속을 사용합니다.
+- **행동 객체 패턴**은 상속보다는 복합을 통해서 객체 사이에 행동처리의 책임을 분산합니다.
+
+## 책임연쇄(Chain of responsibility)
+### 의도
+메세지를 보내는 객체와 이를 받아 처리하는 객체들 간의 결합도를 없애기 위한 패턴입니다.
+하나의 요청에 대한 처리가 반드시 한 객체에서만 되지 않고, 여러 객체에게 그 처리 기회를 주려는 것입니다.
+
+### 활용성
+- 하나 이상의 객체가 요청을 처리해야 하고, 그 요청 처리자중 어떤 것이 선행자인지 모를 때, 처리자가 자동으로 확정되어야 합니다.
+- 메시지를 받을 객체를 명시하지 않은 채 여러 객체 중 하나에게 처리를 요청하고 싶을 때
+- 요청을 처리할 수 있는 객체 집합이 동적으로 정의되어야 할 때
+
+### 구조 및 구현
+```ts
+```
+
+#### 협력 방법
+사용자는 처리를 요청하고, 이 처리 요청을 실제로 그 요청을 받을 책임이 있는 `ConcreteHandler`객체를 만날 때까지 정의된 연결고리를 따라서 계속 전달됩니다.
+
+### 결과
+1. 객체 간의 행동적 결합도가 적어집니다.
+2. 객체에게 책임을 할당하는 데 유연성을 높일 수 있습니다.
+3. 메시지 수신이 보장되지는 않습니다.
+   - 어떤 객체가 이 처리에 대한 수신을 담당한다는 것을 명시하지 않으므로 요청이 처리된다는 보장이 없습니다.
+
+## 명령(Command)
+요청 자체를 캡슐화하는 것입니다. 이를 통해 요청이 서로 다른 사용자를 매개변수로 만들고, 요청을 대기시키거나 로깅하며, 되돌릴 수 있는 연산을 지원합니다.(Action, Transaction)
+
+
+- 수행할 동작을 객체로 매개변수화하고자 할 때
+  - 절차지향 프로그램에서는 이를 콜백 함수, 즉 어딘가 등록되었다가 나중에 호출되는 함수를 사용해서 이러한 매개변수화를 표현할 수 있습니다. 명령 패턴은 콜백을 객체지향 방식으로 나타낸 것입니다.
+- 서로 다른 시간에 요청을 명시하고, 저장하며, 실행하고 싶을 때
+  - Command 객체는 원래의 요청과 다른 생명주기가 있습니다. 요청을 받아 처리하는 객체가 주소 지정 방식과는 독립적으로 표현될 수 있다면, Command 객체를 다른 프로세스에게 넘겨주고 거기서 해당 처리를 진행하게 할 수 있습니다.
+- 실행 취소 기능을 지원하고 싶을 때
+  - Command의 Execute() 연산은 상태를 저장할 수 있는 데, 이를 이용해서 지금까지 얻은 결과를 바꿀 수 있습니다. 이를 위한 Unexecute() 연산을 Command 클래스의 인터페이스에 추가합니다.
+  실행된 명령어를 모두 기록해 두었다가 이 리스트를 역으로 탐색해서 다시 Unexecute()를 수행하게 됩니다. Execute()와 Unexecute() 연산의 반복 사용을 통해 수행과 취소를 무한 반복할 수 있습니다.
+- 기본적인 연산의 조합으로 만든 상위 수준 연산을 써서 시스템을 구조화하고 싶을 때
+  - 정보 시스템의 일반적인 특성은 트랜잭션을 처리해야 한다는 것입니다. 트랜잭션은 일련의 과정을 통해 데이터를 변경하는 것인데, Command 패턴은 이런 트랜잭션의 모델링을 가능하게 합니다.
+  Command 클래스는 일관된 인터페이스를 정의하는 데, 이로써 모든 트랜잭션이 동일한 방식으로 호출됩니다. 새로운 트랜잭션을 만들면 상속으로 Command 클래스를 확장하면 되므로 시스템 확장도 어렵지 않습니다.
+  
+```js
+const add = (x, y) => x + y
+const sub = (x, y) => x - y
+const mul = (x, y) => x * y
+const div = (x, y) => x / y
+
+class Command {
+  constructor (execute, undo, value, name) {
+    this.execute = execute
+    this.undo = undo
+    this.value = value
+    this.name = name
+  }
+}
+
+class AddCommand {
+  constructor (value) {
+    return new Command(add, sub, value, 'Add')
+  }
+}
+
+class SubCommand {
+  constructor (value) {
+    return new Command(sub, add, value, 'Sub')
+  }
+}
+
+class MulCommand {
+  constructor (value) {
+    return new Command(mul, div, value, 'Mul')
+  }
+}
+
+class DivCommand {
+  constructor (value) {
+    return new Command(div, mul, value, 'Div')
+  }
+}
+
+class Calculator {
+  constructor () {
+    this.current = 0
+    this.commands = []
+  }
+  action (command) {
+    const name = command.name
+    return `${name.charAt(0).toUpperCase()}${name.slice(1)}`
+  }
+  execute (command) {
+    this.current = command.execute(this.current, command.value)
+    this.commands.push(command)
+    console.log(`${this.action(command)}: ${command.value}`)
+  }
+  undo () {
+    const command = this.commands.pop()
+    this.current = command.undo(this.current, command.value)
+    console.log(`Undo ${this.action(command)}: ${command.value}`)
+  }
+  getCurrentValue () {
+    return this.current
+  }
+}
+```
+```js
+const calculator = new Calculator()
+
+calculator.execute(new AddCommand(100))
+calculator.execute(new SubCommand(24))
+calculator.execute(new MulCommand(6))
+calculator.execute(new DivCommand(2))
+
+calculator.undo()
+calculator.undo()
+
+console.log(`Value: ${calculator.getCurrentValue()}`)
+```
+```
+Add: 100
+Sub: 24
+Mul: 6
+Div: 2
+Undo Div: 2
+Undo Mul: 6
+Value: 76
+```
+
+## 해석자(Interpreter)
+주어진 언어에 대해, 그 언어의 문법을 위한 표현 수단을 정의하고, 이와 어울러 그 표현 수단을 사용하여 해당 언어로 작성된 문장을 해석하는 해석기를 정의하는 패턴이다.
+
+
+```js
+class Context {
+  constructor(input) {
+    this.input = input
+    this.output = 0
+  }
+  startsWith(str) {
+    return this.input.startsWith(str)
+  }
+}
+
+class Expression {
+  constructor(name, one, four, five, nine, multiplier) {
+    this.name = name
+    this.one = one
+    this.four = four
+    this.five = five
+    this.nine = nine
+    this.multiplier = multiplier
+  }
+  interpret(context) {
+    if (context.input.length === 0) {
+      return
+    }
+    if (context.startsWith(this.nine)) {
+      this.calculate(9, this.nine);
+    } else if (context.startsWith(this.four)) {
+      this.calculate(4, this.four);
+    } else if (context.startsWith(this.five)) {
+      this.calculate(5, this.five);
+    }
+    while (context.startsWith(this.one)) {
+      this.calculate(1, this.one);
+    }
+  }
+  calculate(num, str) {
+    context.output += (num * this.multiplier)
+    context.input = context.input.substr(str.length)
+  }
+}
+```
+```js
+const interpreter = [
+  new Expression('thousand', 'M', ' ', ' ', ' ', 1000),
+  new Expression('hundred', 'C', 'CD', 'D', 'CM', 100),
+  new Expression('ten', 'X', 'XL', 'L', 'XC', 10),
+  new Expression('one', 'I', 'IV', 'V', 'IX', 1)
+];
+
+const roman = 'MCMXXVIII'
+const context = new Context(roman)
+interpreter.forEach(leaf => leaf.interpret(context))
+
+console.log(`${roman} = ${context.output}`)
+// MCMXXVIII = 1928
+```
+
+## 반복자(Iterator)
 내부 표현부를 노출하지 않고 어떤 객체 집합에 속한 원소들을 순차적으로 접근할 수 있는 방법을 제공하는 패턴이다.
 
 * 객체 내부 표현 방식을 모르고도 집합 객체의 각 원소들에 접근하고 싶을 때
@@ -81,8 +273,119 @@ circle
 2
 one
 ```
+## 중재자(Mediator)
+한 집합에 속해있는 객체들의 상호작용을 캡슐화하는 객체를 정의하는 패턴이다. 객체들이 직접 서로를 참조하지 않도록 함으로써
+객체들 사이의 소결합(loose coupling)을 촉진시키며, 개발자가 객체들의 상호작용을 독립적으로 다양화시킬 수 있게 만든다.
 
-## 옵져버(Observer)
+
+```js
+class Participant {
+  constructor (name) {
+    this.name = name
+    this.chatroom = null
+  }
+  send (message, to) {
+    this.chatroom.send(message, this, to)
+  }
+  receive (message, from) {
+    console.log(`${from.name} to ${this.name}: ${message}`)
+  }
+}
+
+class Chatroom {
+  constructor () {
+    this.participants = new Set()
+  }
+  register (participant) {
+    participant.chatroom = this
+    this.participants.add(participant)
+  }
+  send (message, from, to) {
+    if (to) {                      // single message
+      to.receive(message, from)
+    } else {                       // broadcast message
+      this.participants.forEach((participant) => {
+        if (participant !== from) {
+          participant.receive(message, from)
+        }
+      })
+    }
+  }
+}
+```
+```js
+const yoko = new Participant('Yoko')
+const john = new Participant('John')
+const paul = new Participant('Paul')
+const ringo = new Participant('Ringo')
+
+const chatroom = new Chatroom()
+
+chatroom.register(yoko)
+chatroom.register(john)
+chatroom.register(paul)
+chatroom.register(ringo)
+
+yoko.send('All you need is love.')
+yoko.send('I love you John.')
+john.send('Hey, no need to broadcast', yoko)
+paul.send('Ha, I heard that!')
+ringo.send('Paul, what do you think?', paul)
+```
+
+
+## 메멘토(Memento)
+캡슐화를 위배하지 않는 채 어떤 객체의 내부 상태를 잡아내고 신체화시켜, 이후에 해당 객체가 그 상태로 다시 되돌아올 수 있도록 하는 패턴이다.
+
+
+```js
+class Person {
+  constructor (name, street, city, state) {
+    Object.assign(this, {name, street, city, state})
+  }
+  hydrate () {
+    return JSON.stringify(this)
+  }
+  dehydrate (memento) {
+    const {name, street, city, state} = JSON.parse(memento)
+    Object.assign(this, {name, street, city, state})
+  }
+}
+
+class CareTaker {
+  constructor () {
+    this.mementos = new Map()
+  }
+  add (key, memento) {
+    this.mementos.set(key, memento)
+  }
+  get (key) {
+    return this.mementos.get(key)
+  }
+}
+```
+```js
+const mike = new Person('Mike Foley', '1112 Main', 'Dallas', 'TX')
+const john = new Person('John Wang', '48th Street', 'San Jose', 'CA')
+const caretaker = new CareTaker()
+
+// save state
+caretaker.add(1, mike.hydrate())
+caretaker.add(2, john.hydrate())
+
+// mess up their names
+mike.name = 'King Kong'
+john.name = 'Superman'
+
+// restore original state
+mike.dehydrate(caretaker.get(1))
+john.dehydrate(caretaker.get(2))
+
+console.log(mike.name) // Mike Foley
+console.log(john.name) // John Wang
+```
+
+## 감시자(Observer)
 객체 사이에 일 대 다의 의존 관계를 정의해 두어, 어떤 객체의 상태가 변할 때 그 객체의 의존성을 가진 다른 객체들이 그 변화를 통지받고 자동으로 갱신될 수 있게 만드는 패턴이다. (Publish-Subscribe 관계)
 
 
@@ -238,152 +541,6 @@ shipping.setStrategy(fedex)
 console.log(`Fedex Strategy: ${shipping.calculate(baggage)}`)
 ```
 
-## 책임연쇄(Chain of responsibility)
-메시지를 보내는 객체와 이를 받아 처리하는 객체들 간의 결합도를 없애기 위한 패턴입니다. 하나의 요청에 대한 처리가 반드시 
-한 객체에서만 되지 않고, 여러 객체에서 그 처리 기회를 주려는 것입니다.
-
-
-- 하나 이상의 객체가 요청을 처리해야 하고, 그 요청 처리자 중 어떤 것이 선행자 인지 모를 때. 처리자가 자동으로 확정되어야 합니다.
-- 메시지를 받을 객체를 명시하지 않은 채 여러 객체 중 하나에게 처리를 요청하고 싶을 때
-- 요청을 처리할 수 있는 객체 집합이 동적으로 정의되어야 할 때
-
-### Switch
-```js
-switch (true) {
-  case network() === 'online': break
-  case network() === 'wifi': break
-  case network() === 'offline': break
-  case localCache(): break
-  default: break
-}
-```
-
-### Class
-```js
-class Calculator {
-  constructor () {
-    this.num = 0
-  }
-  print () {
-    console.log(this.num)
-    return this
-  }
-  add (n) {
-    this.num += n
-    return this
-  }
-  sub (n) {
-    this.num -= n
-    return this
-  }
-}
-```
-```js
-const calculator = new Calculator()
-
-calculator.add(100).sub(50).sub(20).print() //30
-```
-
-## 커멘드(Command)
-요청 자체를 캡슐화하는 것입니다. 이를 통해 요청이 서로 다른 사용자를 매개변수로 만들고, 요청을 대기시키거나 로깅하며, 되돌릴 수 있는 연산을 지원합니다.(Action, Transaction)
-
-
-- 수행할 동작을 객체로 매개변수화하고자 할 때
-  - 절차지향 프로그램에서는 이를 콜백 함수, 즉 어딘가 등록되었다가 나중에 호출되는 함수를 사용해서 이러한 매개변수화를 표현할 수 있습니다. 명령 패턴은 콜백을 객체지향 방식으로 나타낸 것입니다.
-- 서로 다른 시간에 요청을 명시하고, 저장하며, 실행하고 싶을 때
-  - Command 객체는 원래의 요청과 다른 생명주기가 있습니다. 요청을 받아 처리하는 객체가 주소 지정 방식과는 독립적으로 표현될 수 있다면, Command 객체를 다른 프로세스에게 넘겨주고 거기서 해당 처리를 진행하게 할 수 있습니다.
-- 실행 취소 기능을 지원하고 싶을 때
-  - Command의 Execute() 연산은 상태를 저장할 수 있는 데, 이를 이용해서 지금까지 얻은 결과를 바꿀 수 있습니다. 이를 위한 Unexecute() 연산을 Command 클래스의 인터페이스에 추가합니다.
-  실행된 명령어를 모두 기록해 두었다가 이 리스트를 역으로 탐색해서 다시 Unexecute()를 수행하게 됩니다. Execute()와 Unexecute() 연산의 반복 사용을 통해 수행과 취소를 무한 반복할 수 있습니다.
-- 기본적인 연산의 조합으로 만든 상위 수준 연산을 써서 시스템을 구조화하고 싶을 때
-  - 정보 시스템의 일반적인 특성은 트랜잭션을 처리해야 한다는 것입니다. 트랜잭션은 일련의 과정을 통해 데이터를 변경하는 것인데, Command 패턴은 이런 트랜잭션의 모델링을 가능하게 합니다.
-  Command 클래스는 일관된 인터페이스를 정의하는 데, 이로써 모든 트랜잭션이 동일한 방식으로 호출됩니다. 새로운 트랜잭션을 만들면 상속으로 Command 클래스를 확장하면 되므로 시스템 확장도 어렵지 않습니다.
-  
-```js
-const add = (x, y) => x + y
-const sub = (x, y) => x - y
-const mul = (x, y) => x * y
-const div = (x, y) => x / y
-
-class Command {
-  constructor (execute, undo, value, name) {
-    this.execute = execute
-    this.undo = undo
-    this.value = value
-    this.name = name
-  }
-}
-
-class AddCommand {
-  constructor (value) {
-    return new Command(add, sub, value, 'Add')
-  }
-}
-
-class SubCommand {
-  constructor (value) {
-    return new Command(sub, add, value, 'Sub')
-  }
-}
-
-class MulCommand {
-  constructor (value) {
-    return new Command(mul, div, value, 'Mul')
-  }
-}
-
-class DivCommand {
-  constructor (value) {
-    return new Command(div, mul, value, 'Div')
-  }
-}
-
-class Calculator {
-  constructor () {
-    this.current = 0
-    this.commands = []
-  }
-  action (command) {
-    const name = command.name
-    return `${name.charAt(0).toUpperCase()}${name.slice(1)}`
-  }
-  execute (command) {
-    this.current = command.execute(this.current, command.value)
-    this.commands.push(command)
-    console.log(`${this.action(command)}: ${command.value}`)
-  }
-  undo () {
-    const command = this.commands.pop()
-    this.current = command.undo(this.current, command.value)
-    console.log(`Undo ${this.action(command)}: ${command.value}`)
-  }
-  getCurrentValue () {
-    return this.current
-  }
-}
-```
-```js
-const calculator = new Calculator()
-
-calculator.execute(new AddCommand(100))
-calculator.execute(new SubCommand(24))
-calculator.execute(new MulCommand(6))
-calculator.execute(new DivCommand(2))
-
-calculator.undo()
-calculator.undo()
-
-console.log(`Value: ${calculator.getCurrentValue()}`)
-```
-```
-Add: 100
-Sub: 24
-Mul: 6
-Div: 2
-Undo Div: 2
-Undo Mul: 6
-Value: 76
-```
 
 ## 탬플릿 메소드(Template Method)
 객체의 연산에는 알고리즘의 뼈대만을 정의하고 각 단계에서 수행할 구체적 처리는 서브클래스쪽으로 미루는 패턴이다. 알고리즘의 구조 자체는 그대로 놔둔 채 알고리즘 각 단계의 처리를 서브클래스에서 재정의할 수 있게 한다.
@@ -483,176 +640,4 @@ employees.forEach((emp) => {
 John: $11000 and 12 vacation days
 Mary: $22000 and 23 vacation days
 Boss: $275000 and 53 vacation days
-```
-
-## 미디에이터(Mediator)
-한 집합에 속해있는 객체들의 상호작용을 캡슐화하는 객체를 정의하는 패턴이다. 객체들이 직접 서로를 참조하지 않도록 함으로써
-객체들 사이의 소결합(loose coupling)을 촉진시키며, 개발자가 객체들의 상호작용을 독립적으로 다양화시킬 수 있게 만든다.
-
-
-```js
-class Participant {
-  constructor (name) {
-    this.name = name
-    this.chatroom = null
-  }
-  send (message, to) {
-    this.chatroom.send(message, this, to)
-  }
-  receive (message, from) {
-    console.log(`${from.name} to ${this.name}: ${message}`)
-  }
-}
-
-class Chatroom {
-  constructor () {
-    this.participants = new Set()
-  }
-  register (participant) {
-    participant.chatroom = this
-    this.participants.add(participant)
-  }
-  send (message, from, to) {
-    if (to) {                      // single message
-      to.receive(message, from)
-    } else {                       // broadcast message
-      this.participants.forEach((participant) => {
-        if (participant !== from) {
-          participant.receive(message, from)
-        }
-      })
-    }
-  }
-}
-```
-```js
-const yoko = new Participant('Yoko')
-const john = new Participant('John')
-const paul = new Participant('Paul')
-const ringo = new Participant('Ringo')
-
-const chatroom = new Chatroom()
-
-chatroom.register(yoko)
-chatroom.register(john)
-chatroom.register(paul)
-chatroom.register(ringo)
-
-yoko.send('All you need is love.')
-yoko.send('I love you John.')
-john.send('Hey, no need to broadcast', yoko)
-paul.send('Ha, I heard that!')
-ringo.send('Paul, what do you think?', paul)
-```
-
-## 메멘토(Memento)
-캡슐화를 위배하지 않는 채 어떤 객체의 내부 상태를 잡아내고 신체화시켜, 이후에 해당 객체가 그 상태로 다시 되돌아올 수 있도록 하는 패턴이다.
-
-
-```js
-class Person {
-  constructor (name, street, city, state) {
-    Object.assign(this, {name, street, city, state})
-  }
-  hydrate () {
-    return JSON.stringify(this)
-  }
-  dehydrate (memento) {
-    const {name, street, city, state} = JSON.parse(memento)
-    Object.assign(this, {name, street, city, state})
-  }
-}
-
-class CareTaker {
-  constructor () {
-    this.mementos = new Map()
-  }
-  add (key, memento) {
-    this.mementos.set(key, memento)
-  }
-  get (key) {
-    return this.mementos.get(key)
-  }
-}
-```
-```js
-const mike = new Person('Mike Foley', '1112 Main', 'Dallas', 'TX')
-const john = new Person('John Wang', '48th Street', 'San Jose', 'CA')
-const caretaker = new CareTaker()
-
-// save state
-caretaker.add(1, mike.hydrate())
-caretaker.add(2, john.hydrate())
-
-// mess up their names
-mike.name = 'King Kong'
-john.name = 'Superman'
-
-// restore original state
-mike.dehydrate(caretaker.get(1))
-john.dehydrate(caretaker.get(2))
-
-console.log(mike.name) // Mike Foley
-console.log(john.name) // John Wang
-```
-
-## 인터프리터(Interpreter)
-주어진 언어에 대해, 그 언어의 문법을 위한 표현 수단을 정의하고, 이와 어울러 그 표현 수단을 사용하여 해당 언어로 작성된 문장을 해석하는 해석기를 정의하는 패턴이다.
-
-
-```js
-class Context {
-  constructor(input) {
-    this.input = input
-    this.output = 0
-  }
-  startsWith(str) {
-    return this.input.startsWith(str)
-  }
-}
-
-class Expression {
-  constructor(name, one, four, five, nine, multiplier) {
-    this.name = name
-    this.one = one
-    this.four = four
-    this.five = five
-    this.nine = nine
-    this.multiplier = multiplier
-  }
-  interpret(context) {
-    if (context.input.length === 0) {
-      return
-    }
-    if (context.startsWith(this.nine)) {
-      this.calculate(9, this.nine);
-    } else if (context.startsWith(this.four)) {
-      this.calculate(4, this.four);
-    } else if (context.startsWith(this.five)) {
-      this.calculate(5, this.five);
-    }
-    while (context.startsWith(this.one)) {
-      this.calculate(1, this.one);
-    }
-  }
-  calculate(num, str) {
-    context.output += (num * this.multiplier)
-    context.input = context.input.substr(str.length)
-  }
-}
-```
-```js
-const interpreter = [
-  new Expression('thousand', 'M', ' ', ' ', ' ', 1000),
-  new Expression('hundred', 'C', 'CD', 'D', 'CM', 100),
-  new Expression('ten', 'X', 'XL', 'L', 'XC', 10),
-  new Expression('one', 'I', 'IV', 'V', 'IX', 1)
-];
-
-const roman = 'MCMXXVIII'
-const context = new Context(roman)
-interpreter.forEach(leaf => leaf.interpret(context))
-
-console.log(`${roman} = ${context.output}`)
-// MCMXXVIII = 1928
 ```

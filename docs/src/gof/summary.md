@@ -5,6 +5,7 @@ date:   2018-12-09
 tags: [pattern]
 category: 패턴
 ---
+> 출처: 에릭 감마 , 리처드 헬름 , 랄프 존슨 , 존 블리시디스. 『Gof의 디자인 패턴』. 김정아(역). 프로텍미디어, 2015.
 
 GoF(Gang of Four)는 **Design Patterns: Elements of Reusable Object-Oriented Software**를 집필한 저자 4명을 말한다.
 에릭 감마(Erich Gamma), 리차드 헬름(Richard Helm), 랄프 존슨(Ralph Johnson), 존 블리시데스(John Vlissides)가 이 책의 저자들이다.
@@ -14,10 +15,10 @@ Design Patterns은 세 가지 카테고리로 분류되어 23개 패턴이 있�
 #### 생성 패턴(Creational Pattern)
 객체의 생성과 관련있다. 생성 패턴 대부분은 정확히 무엇을 생성하는지에 대한 정보 없이도 객체를 생성할 수 있도록 해준다.
 
+- **추상 팩토리** : 객체 생성과 표현을 분리
 - **싱글턴** : 오직 한 개의 인스턴스 보장, 전역적인 접근 제공
   - [Angular Service](https://angular.io/guide/dependency-injection#injector-hierarchy-and-service-instances)
 - **팩토리 메서드** : 객체 생성 인터페이스 정의, 서브클래스에서 클래스 생성 결정
-- **추상 팩토리** : 객체 생성과 표현을 분리
 - **프로토타입** : 원형 복사해서 새로운 객체 생성
 - **빌더** : 복잡한 객체 생성의 동일한 절차 제공
 
