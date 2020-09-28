@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>GoF 디자인 패턴 | 구조패턴 | ChoDragon9 | Design Patterns</title>
+    <meta name="description" content="GoF 디자인 패턴 중 구조패턴을 정리합니다.">
+    <meta name="generator" content="VuePress 1.3.1">
+    <meta name="google-site-verification" content="">
+    
+    <link rel="preload" href="/design-patterns/assets/css/0.styles.966120bd.css" as="style"><link rel="preload" href="/design-patterns/assets/js/app.69e11f7c.js" as="script"><link rel="preload" href="/design-patterns/assets/js/2.3b06bab7.js" as="script"><link rel="preload" href="/design-patterns/assets/js/8.6186bb35.js" as="script"><link rel="prefetch" href="/design-patterns/assets/js/10.6072a296.js"><link rel="prefetch" href="/design-patterns/assets/js/3.467c7e47.js"><link rel="prefetch" href="/design-patterns/assets/js/4.f65d49b7.js"><link rel="prefetch" href="/design-patterns/assets/js/5.3b4adf98.js"><link rel="prefetch" href="/design-patterns/assets/js/6.1c860673.js"><link rel="prefetch" href="/design-patterns/assets/js/7.6de0e1dc.js"><link rel="prefetch" href="/design-patterns/assets/js/9.4b411da7.js">
+    <link rel="stylesheet" href="/design-patterns/assets/css/0.styles.966120bd.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/design-patterns/" class="home-link router-link-active"><!----> <span class="site-name">ChoDragon9 | Design Patterns</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Gof Design Patterns" class="dropdown-title"><span class="title">Gof Design Patterns</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/design-patterns/src/gof/summary/" class="nav-link">
+  요약
+</a></li><li class="dropdown-item"><!----> <a href="/design-patterns/src/gof/creational/" class="nav-link">
+  생성패턴
+</a></li><li class="dropdown-item"><!----> <a href="/design-patterns/src/gof/structural/" class="nav-link router-link-exact-active router-link-active">
+  구조패턴
+</a></li><li class="dropdown-item"><!----> <a href="/design-patterns/src/gof/behavioral/" class="nav-link">
+  행동패턴
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Gof Design Patterns" class="dropdown-title"><span class="title">Gof Design Patterns</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/design-patterns/src/gof/summary/" class="nav-link">
+  요약
+</a></li><li class="dropdown-item"><!----> <a href="/design-patterns/src/gof/creational/" class="nav-link">
+  생성패턴
+</a></li><li class="dropdown-item"><!----> <a href="/design-patterns/src/gof/structural/" class="nav-link router-link-exact-active router-link-active">
+  구조패턴
+</a></li><li class="dropdown-item"><!----> <a href="/design-patterns/src/gof/behavioral/" class="nav-link">
+  행동패턴
+</a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>GoF 디자인 패턴 | 구조패턴</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/design-patterns/src/gof/structural/#어뎁터-adapter" class="sidebar-link">어뎁터(Adapter)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#의도" class="sidebar-link">의도</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#활용성" class="sidebar-link">활용성</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#구조-및-구현" class="sidebar-link">구조 및 구현</a></li></ul></li><li><a href="/design-patterns/src/gof/structural/#브릿지-bridge" class="sidebar-link">브릿지(Bridge)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#의도-2" class="sidebar-link">의도</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#활용성-2" class="sidebar-link">활용성</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#구조-및-구현-2" class="sidebar-link">구조 및 구현</a></li></ul></li><li><a href="/design-patterns/src/gof/structural/#컴포지트-composite" class="sidebar-link">컴포지트(Composite)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#의도-3" class="sidebar-link">의도</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#활용성-3" class="sidebar-link">활용성</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#구조-및-구현-3" class="sidebar-link">구조 및 구현</a></li></ul></li><li><a href="/design-patterns/src/gof/structural/#데코레이터-decorator" class="sidebar-link">데코레이터(Decorator)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#의도-4" class="sidebar-link">의도</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#활용성-4" class="sidebar-link">활용성</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#구조-및-구현-4" class="sidebar-link">구조 및 구현</a></li></ul></li><li><a href="/design-patterns/src/gof/structural/#퍼사드-facade" class="sidebar-link">퍼사드(Facade)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#의도-5" class="sidebar-link">의도</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#활용성-5" class="sidebar-link">활용성</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#구조-및-구현-5" class="sidebar-link">구조 및 구현</a></li></ul></li><li><a href="/design-patterns/src/gof/structural/#플라이웨이트-flyweight" class="sidebar-link">플라이웨이트(Flyweight)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#의도-6" class="sidebar-link">의도</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#활용성-6" class="sidebar-link">활용성</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#구조-및-구현-6" class="sidebar-link">구조 및 구현</a></li></ul></li><li><a href="/design-patterns/src/gof/structural/#프록시-proxy" class="sidebar-link">프록시(Proxy)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#의도-7" class="sidebar-link">의도</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#활용성-7" class="sidebar-link">활용성</a></li><li class="sidebar-sub-header"><a href="/design-patterns/src/gof/structural/#구조-및-구현-7" class="sidebar-link">구조 및 구현</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="gof-디자인-패턴-구조패턴"><a href="#gof-디자인-패턴-구조패턴" class="header-anchor">#</a> GoF 디자인 패턴 | 구조패턴</h1> <h2 id="어뎁터-adapter"><a href="#어뎁터-adapter" class="header-anchor">#</a> 어뎁터(Adapter)</h2> <h3 id="의도"><a href="#의도" class="header-anchor">#</a> 의도</h3> <p>클래스의 인터페이스를 사용자가 기대하는 인터페이스 형태로 적응시킵니다. 서로 일치하지 않는 인터페이스를 갖는 클래스들을 함께 동작시킵니다.</p> <h3 id="활용성"><a href="#활용성" class="header-anchor">#</a> 활용성</h3> <ul><li>기존 클래스를 사용하고 싶은 데 인터페이스가 맞지 않을 때</li> <li>이미 만든 것을 재사용하고 싶지만 이 재사용 가능한 라이브러리를 수정할 수 없을 때</li></ul> <h3 id="구조-및-구현"><a href="#구조-및-구현" class="header-anchor">#</a> 구조 및 구현</h3> <h4 id="클래스-적응자"><a href="#클래스-적응자" class="header-anchor">#</a> 클래스 적응자</h4> <p>다중 상속을 활용해서 한 인터페이스를 다른 인터페이스로 적응시킵니다.</p> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">interface</span> <span class="token class-name">Target</span> <span class="token punctuation">{</span>
+    <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Adaptee</span> <span class="token punctuation">{</span>
+    <span class="token function">specificRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Adapter</span> <span class="token keyword">extends</span> <span class="token class-name">Adaptee</span> <span class="token keyword">implements</span> <span class="token class-name">Target</span> <span class="token punctuation">{</span>
+    <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">specificRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="사용자측-코드"><a href="#사용자측-코드" class="header-anchor">#</a> 사용자측 코드</h4> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    target<span class="token operator">:</span> Target
+    <span class="token keyword">constructor</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>target <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Adapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>target<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="객체-적응자"><a href="#객체-적응자" class="header-anchor">#</a> 객체 적응자</h4> <p>객체 합성을 써서 이루어져 있습니다.</p> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">interface</span> <span class="token class-name">Target</span> <span class="token punctuation">{</span>
+    <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Adaptee</span> <span class="token punctuation">{</span>
+    <span class="token function">specificRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Adapter</span> <span class="token keyword">implements</span> <span class="token class-name">Target</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> adaptee<span class="token operator">!</span><span class="token operator">:</span> Adaptee
+    <span class="token keyword">constructor</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>adaptee <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Adaptee</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>adaptee<span class="token punctuation">.</span><span class="token function">specificRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="사용자측-코드-2"><a href="#사용자측-코드-2" class="header-anchor">#</a> 사용자측 코드</h4> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    target<span class="token operator">:</span> Target
+    <span class="token keyword">constructor</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>target <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Adapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>target<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="브릿지-bridge"><a href="#브릿지-bridge" class="header-anchor">#</a> 브릿지(Bridge)</h2> <h3 id="의도-2"><a href="#의도-2" class="header-anchor">#</a> 의도</h3> <p>구현에서 추상을 분리하여, 이들이 독립적으로 다양성을 가질 수 있도록 합니다.</p> <h3 id="활용성-2"><a href="#활용성-2" class="header-anchor">#</a> 활용성</h3> <ul><li>추상적인 개념과 이에 대한 구현 사이의 지속적인 종속 관계를 피하고 싶을 때. 이를 테면, 런타임에 구현 방법을 선택하거나 구현 내용을 변경하고 싶을 때</li> <li>추상적 개념과 구현 모두가 독립적으로 서브클래싱을 통해 확장되어야 할 때</li></ul> <h3 id="구조-및-구현-2"><a href="#구조-및-구현-2" class="header-anchor">#</a> 구조 및 구현</h3> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">interface</span> <span class="token class-name">Implementor</span> <span class="token punctuation">{</span>
+    <span class="token function">operationImp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ConcreteImplementor</span> <span class="token keyword">implements</span> <span class="token class-name">Implementor</span> <span class="token punctuation">{</span>
+    <span class="token function">operationImp</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Abstraction</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> imp<span class="token operator">:</span> Implementor
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>imp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteImplementor</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>imp<span class="token punctuation">.</span><span class="token function">operationImp</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="사용자측-코드-3"><a href="#사용자측-코드-3" class="header-anchor">#</a> 사용자측 코드</h4> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    abstraction<span class="token operator">:</span> Abstraction
+    <span class="token keyword">constructor</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>abstraction <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Abstraction</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>abstraction<span class="token punctuation">.</span><span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="컴포지트-composite"><a href="#컴포지트-composite" class="header-anchor">#</a> 컴포지트(Composite)</h2> <h3 id="의도-3"><a href="#의도-3" class="header-anchor">#</a> 의도</h3> <p>부분과 전체의 계층을 표현하기 위해 객체들을 모아 트리 구조로 구성합니다. 사용자로 하여금 개별 객체와 복합 객체를 모두 동일하게 다룰 수 있도록 하는 패턴입니다.</p> <h3 id="활용성-3"><a href="#활용성-3" class="header-anchor">#</a> 활용성</h3> <ul><li>부분-전체의 객체 계통을 표현하고 싶을 때</li> <li>사용자가 객체의 합성으로 생긴 복합 객체와 개개의 객체 사이의 차이를 알지 않고도 자기 일을 할 수 있도록 만들고 싶을 때, 사용자는 복합 구조의 모든 객체를 똑같이 취급하게 됩니다.</li></ul> <h3 id="구조-및-구현-3"><a href="#구조-및-구현-3" class="header-anchor">#</a> 구조 및 구현</h3> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">interface</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+    add<span class="token operator">?</span><span class="token punctuation">(</span>component<span class="token operator">:</span> Component<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+    remove<span class="token operator">?</span><span class="token punctuation">(</span>component<span class="token operator">:</span> Component<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+    getChild<span class="token operator">?</span><span class="token punctuation">(</span>num<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> Component
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Leaf</span> <span class="token keyword">implements</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Composite</span> <span class="token keyword">implements</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> children<span class="token operator">:</span> Component<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token function">add</span><span class="token punctuation">(</span><span class="token parameter">component<span class="token operator">:</span> Component</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>component<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">remove</span><span class="token punctuation">(</span><span class="token parameter">component<span class="token operator">:</span> Component</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> index <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>component<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">&gt;</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        
+           <span class="token keyword">this</span><span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">getChild</span> <span class="token punctuation">(</span><span class="token parameter">num<span class="token operator">:</span> <span class="token builtin">number</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>children<span class="token punctuation">[</span>num<span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="사용자측-코드-4"><a href="#사용자측-코드-4" class="header-anchor">#</a> 사용자측 코드</h4> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">constructor</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> root <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Composite</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">const</span> parent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Composite</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        root<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Leaf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        root<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Leaf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        root<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span>
+
+        parent<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Leaf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span>
+        <span class="token comment">// Composite</span>
+        <span class="token comment">//     children: Array(3)</span>
+        <span class="token comment">//         0: Leaf</span>
+        <span class="token comment">//         1: Leaf</span>
+        <span class="token comment">//         2: Composite</span>
+        <span class="token comment">//             children: Array(1)</span>
+        <span class="token comment">//                 0: Leaf</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="데코레이터-decorator"><a href="#데코레이터-decorator" class="header-anchor">#</a> 데코레이터(Decorator)</h2> <h3 id="의도-4"><a href="#의도-4" class="header-anchor">#</a> 의도</h3> <p>객체에 동적으로 새로운 책임을 추가할 수 있게 합니다. 기능을 추가하려면, 서브클래스를 생성하는 것보다 융통성 있는 방법을 제공합니다.</p> <h3 id="활용성-4"><a href="#활용성-4" class="header-anchor">#</a> 활용성</h3> <ul><li>다른 객체에 영향을 주지 않고 각각의 객체에 새로운 책임을 추가하기 위해 사용합니다.</li> <li>제거 될 수 있는 책임에 대해 사용합니다.</li> <li>실제 상속으로 서브클래스를 계속 만드는 방법이 실질적이지 못할 때 사용합니다.
+<ul><li>너무 많은 수의 독립된 확장이 가능할 때 모든 조합을 지원하기 위해 상속으로 해결하면 클래스 수가 폭발적으로 많아지게 된다.</li></ul></li></ul> <h3 id="구조-및-구현-4"><a href="#구조-및-구현-4" class="header-anchor">#</a> 구조 및 구현</h3> <ol><li>인터페이스 일치 시키기
+<ul><li>반드시 자신을 둘러싼 구성 요소의 인터페이스를 만족해야 한다.</li></ul></li> <li>Component 클래스는 가벼운 무게를 유지하기
+<ul><li>가볍게 정의한다는 의미는 연산에 해당하는 인터페이스만을 정의하고 무언가 저장할 수 있는 변수는 정의하지 말라는 의미다.</li></ul></li></ol> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">interface</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ConcreteComponent</span> <span class="token keyword">implements</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'ConcreteComponent.operation'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">Decorator</span> <span class="token keyword">implements</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    component<span class="token operator">:</span> Component
+    <span class="token keyword">constructor</span> <span class="token punctuation">(</span><span class="token parameter">component<span class="token operator">:</span> Component</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>component <span class="token operator">=</span> component
+    <span class="token punctuation">}</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        component<span class="token punctuation">.</span><span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ConcreteDecorator</span> <span class="token keyword">extends</span> <span class="token class-name">Decorator</span> <span class="token punctuation">{</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token parameter">component<span class="token operator">:</span> Component</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>component<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">addedBehavior</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">addedBehavior</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'ConcreteDecorator.addedBehavior'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="사용자측-코드-5"><a href="#사용자측-코드-5" class="header-anchor">#</a> 사용자측 코드</h4> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    component<span class="token operator">:</span> Component
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>component <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteComponent</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>component<span class="token punctuation">.</span><span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment">// ConcreteComponent.operation</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Decorator 사용</span>
+<span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    component<span class="token operator">:</span> Component
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> concreteComponent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteComponent</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>component <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteDecorator</span><span class="token punctuation">(</span>component<span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>component<span class="token punctuation">.</span><span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment">// ConcreteComponent.operation</span>
+        <span class="token comment">// ConcreteDecorator.addedBehavior</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="퍼사드-facade"><a href="#퍼사드-facade" class="header-anchor">#</a> 퍼사드(Facade)</h2> <h3 id="의도-5"><a href="#의도-5" class="header-anchor">#</a> 의도</h3> <p>한 서브시스템 내의 인터페이스 집합에 대한 획일화된 하나의 인터페이스를 제공하는 패턴으로, 서브시스템을 사용하기 쉽도록 상위 수준의 인터페이스를 정의합니다.</p> <h3 id="활용성-5"><a href="#활용성-5" class="header-anchor">#</a> 활용성</h3> <ul><li>복잡한 서브시스템에 대한 단순한 인터페이스 제공이 필요할 때</li> <li>추상 개념에 대한 구현 클래스와 사용자 사이에 너무 많은 종속성이 존재할 때</li> <li>퍼사드의 사용을 통해 사용자와 다른 서브시스템 간의 결합도를 줄일 수 있다</li></ul> <h3 id="구조-및-구현-5"><a href="#구조-및-구현-5" class="header-anchor">#</a> 구조 및 구현</h3> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">class</span> <span class="token class-name">Facade</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> subClass1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SubClass1</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> subClass2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SubClass2</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>subClass1<span class="token punctuation">.</span><span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>subClass2<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SubClass1</span> <span class="token punctuation">{</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">class</span> <span class="token class-name">SubClass2</span> <span class="token punctuation">{</span>
+    <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="사용자측-코드-6"><a href="#사용자측-코드-6" class="header-anchor">#</a> 사용자측 코드</h4> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> facade <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Facade</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        facade<span class="token punctuation">.</span><span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        facade<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="플라이웨이트-flyweight"><a href="#플라이웨이트-flyweight" class="header-anchor">#</a> 플라이웨이트(Flyweight)</h2> <h3 id="의도-6"><a href="#의도-6" class="header-anchor">#</a> 의도</h3> <p>공유를 통해 많은 수의 소립 객체들을 효과적으로 지원한다.</p> <p>Flyweight 패턴에서 중요한 개념은 본질적 상태와 부가적 상태의 구분이다.
+본질적 상태는 Flyweight객체에 저장되어야 하며, 이것이 적용되는 상황과
+상관없는 본질적 특성 정보들이 객체를 구성한다.</p> <p>본질적이지 않는 부가적 상태는 Flyweight객체가 사용된 상황에 따라 달라질 수 있고,
+그 상황에 종속적이다. 그러므로 공유될 수 없습니다.</p> <h3 id="활용성-6"><a href="#활용성-6" class="header-anchor">#</a> 활용성</h3> <ul><li>응용프로그램이 대량의 객체를 사용해야 할 때</li> <li>객체의 수가 너무 많아져 저장 비용이 너무 높아질때</li></ul> <h3 id="구조-및-구현-6"><a href="#구조-및-구현-6" class="header-anchor">#</a> 구조 및 구현</h3> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">interface</span> <span class="token class-name">Flyweight</span> <span class="token punctuation">{</span>
+    state<span class="token operator">:</span> <span class="token builtin">string</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span>state<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ConcreteFlyweight</span> <span class="token keyword">implements</span> <span class="token class-name">Flyweight</span> <span class="token punctuation">{</span>
+    state<span class="token operator">!</span><span class="token operator">:</span> <span class="token builtin">string</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token parameter">state<span class="token operator">:</span> <span class="token builtin">string</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> state
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">UnshareConcreteFlyweight</span> <span class="token keyword">implements</span> <span class="token class-name">Flyweight</span> <span class="token punctuation">{</span>
+    state<span class="token operator">!</span><span class="token operator">:</span> <span class="token builtin">string</span>
+    <span class="token function">operation</span><span class="token punctuation">(</span><span class="token parameter">state<span class="token operator">:</span> <span class="token builtin">string</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> state
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">FlyweightFactory</span> <span class="token punctuation">{</span>
+    flyweights<span class="token operator">:</span> Map<span class="token operator">&lt;</span><span class="token builtin">string</span><span class="token punctuation">,</span> Flyweight<span class="token operator">&gt;</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token function">getFlyweight</span><span class="token punctuation">(</span>key<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> Flyweight <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> flyweight <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>flyweights<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>flyweight<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> flyweight
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">const</span> newFlyweight <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteFlyweight</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>flyweights<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> newFlyweight<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> newFlyweight
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="사용자측-코드-7"><a href="#사용자측-코드-7" class="header-anchor">#</a> 사용자측 코드</h4> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> flyweightFactory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FlyweightFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">const</span> unsharedFlyweight <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">UnshareConcreteFlyweight</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">const</span> concreteFlyweight1 <span class="token operator">=</span> flyweightFactory<span class="token punctuation">.</span><span class="token function">getFlyweight</span><span class="token punctuation">(</span><span class="token string">'something'</span><span class="token punctuation">)</span>
+        <span class="token keyword">const</span> concreteFlyweight2 <span class="token operator">=</span> flyweightFactory<span class="token punctuation">.</span><span class="token function">getFlyweight</span><span class="token punctuation">(</span><span class="token string">'something'</span><span class="token punctuation">)</span>
+
+        <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>concreteFlyweight1 <span class="token operator">===</span> concreteFlyweight2<span class="token punctuation">)</span> <span class="token comment">// true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="협력-방법"><a href="#협력-방법" class="header-anchor">#</a> 협력 방법</h4> <ul><li><code>Flyweight</code>객체가 기능을 수행하는 데 필요한 상태가 본질적인 것인지 부가적인것인지를 구분해야 한다.
+<ul><li>본질적인 상태는 <code>ConcreteFlyweight</code>에 저장해야 한다.</li> <li>부가적인 상태는 사용자가 저장하거나, 연산되어야 하는 다른 상태로 관리 해야 한다.</li> <li>사용자는 연산을 호출할 때 자신에게만 필요한 부가적 상태를 <code>Flyweight</code> 객체에 매개변수로 전달한다.</li></ul></li> <li>사용자는 <code>ConcreteFlyweight</code>의 인스턴스를 직접 만들 수 없다.
+<ul><li>사용자는 <code>ConcreteFlyweight</code>객체를 <code>FlyweightFactory</code>객체에서 언어야 한다. 이렇게 해야 <code>Flyweight</code>객체가 공유될 수 있다.</li></ul></li></ul> <h2 id="프록시-proxy"><a href="#프록시-proxy" class="header-anchor">#</a> 프록시(Proxy)</h2> <h3 id="의도-7"><a href="#의도-7" class="header-anchor">#</a> 의도</h3> <p>다른 객체에 대한 접근을 제어하기 위한 대리자 또는 자리체움자 역할을 하는 객체를 둔다.</p> <p>어떤 객체에 대한 접근을 제어하는 한 가지 이유는 실제로 그 객체를 사용할 수 있을 때까지
+객체 생성과 초기화에 들어가는 비용 및 시간을 묻지 않겠다는 것이다.</p> <h3 id="활용성-7"><a href="#활용성-7" class="header-anchor">#</a> 활용성</h3> <ul><li><strong>Remote Proxy</strong>는 서로 다른 주소 공간에 존재하는 객체를 가리키는 대표 객체로, 로컬 환경에 위치한다.</li> <li><strong>Virtual Proxy</strong>는 요청이 있을 때만 필요한 고비용 객체를 생성한다.</li> <li><strong>Protection Proxy</strong>는 원래 객체에 대한 실제 접근을 제어한다.
+<ul><li>이는 객체 별로 접근 제어 권한이 다를 때 유용하게 사용할 수 있다.</li></ul></li> <li><strong>Smart Reference</strong>는 원시 포인터의 대채용 객체로, 실제 객체에 접근이 일어날 때 추가적인 행동을 수행한다.</li></ul> <h3 id="구조-및-구현-7"><a href="#구조-및-구현-7" class="header-anchor">#</a> 구조 및 구현</h3> <p><code>Proxy</code>클래스는 자신이 받을 요청을 <code>RealSubject</code>객체에 전달한다.</p> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">interface</span> <span class="token class-name">Subject</span> <span class="token punctuation">{</span>
+    <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">RealSubject</span> <span class="token keyword">implements</span> <span class="token class-name">Subject</span> <span class="token punctuation">{</span>
+    <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ProxySubject</span> <span class="token keyword">implements</span> <span class="token class-name">Subject</span> <span class="token punctuation">{</span>
+    realSubject<span class="token operator">:</span> Subject
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token parameter">subject<span class="token operator">:</span> Subject</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>realSubject <span class="token operator">=</span> subject
+    <span class="token punctuation">}</span>
+    <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>realSubject<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="사용자측-코드-8"><a href="#사용자측-코드-8" class="header-anchor">#</a> 사용자측 코드</h4> <div class="language-ts extra-class"><pre class="language-ts"><code><span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    subject<span class="token operator">:</span> Subject
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>subject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RealSubject</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>subject<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Proxy 사용</span>
+<span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    subject<span class="token operator">:</span> Subject
+    <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> realSubject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RealSubject</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>subject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ProxySubject</span><span class="token punctuation">(</span>realSubject<span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>subject<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/design-patterns/assets/js/app.69e11f7c.js" defer></script><script src="/design-patterns/assets/js/2.3b06bab7.js" defer></script><script src="/design-patterns/assets/js/8.6186bb35.js" defer></script>
+  </body>
+</html>
