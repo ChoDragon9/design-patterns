@@ -168,64 +168,46 @@ class Main {
 ```
 
 ## 해석자(Interpreter)
-주어진 언어에 대해, 그 언어의 문법을 위한 표현 수단을 정의하고, 이와 어울러 그 표현 수단을 사용하여 해당 언어로 작성된 문장을 해석하는 해석기를 정의하는 패턴이다.
+### 의도
+간단한 언어의 문법을 정의하는 바업ㅂ과 그 언어로 문장을 구정하는 방법, 이들 문장을 해석하는 방법을 설명합니다.
 
+### 활용성
+- 정의할 언어의 문법이 간단할 때 적합하다.
+- 문법이 복잡하다면 문법을 정의하는 클래스 계통이 복잡해지고 관리하기 힘들기 때문에 이럴 때는 파서 생성기가 적합하다.
 
-```js
-class Context {
-  constructor(input) {
-    this.input = input
-    this.output = 0
-  }
-  startsWith(str) {
-    return this.input.startsWith(str)
-  }
+### 해석자 정의 방법
+1. 문법정의
+   - expression: 시작 기호
+   - literal: 터미널 기호
+    ```
+    expression ::= literal | alternation | sequence | repetition | '(' expression ')'
+    alternation ::= expression '|' expression
+    sequence ::= expression '&' expression
+    repetition ::= expression '*'
+    literal ::= 'a' | 'b' | 'c' ... {'a' | 'b' | 'c'...}*
+    ```
+2. 문법 오른편을 클래스로 정의
+3. interpret(context) 연산을 구현하여 Context를 근거로 입력문자열에서 다음번 일치하는 문자열을 발견한다.
+   - Context는 입력 문자열이 무엇이고 지금까지 어떻게 일치되는 내용을 찾아왔는지에 대한 상태 정보를 포함한다.
+4. 결과적으로 interpret(context)에서 클래스들을 사용함으로 트리 형태로 만들어진다.
+
+### 구조 및 구현
+> 작성중
+
+```ts
+interface AbstractExpression {
+    interpret(context: Context): void
 }
 
-class Expression {
-  constructor(name, one, four, five, nine, multiplier) {
-    this.name = name
-    this.one = one
-    this.four = four
-    this.five = five
-    this.nine = nine
-    this.multiplier = multiplier
-  }
-  interpret(context) {
-    if (context.input.length === 0) {
-      return
-    }
-    if (context.startsWith(this.nine)) {
-      this.calculate(9, this.nine);
-    } else if (context.startsWith(this.four)) {
-      this.calculate(4, this.four);
-    } else if (context.startsWith(this.five)) {
-      this.calculate(5, this.five);
-    }
-    while (context.startsWith(this.one)) {
-      this.calculate(1, this.one);
-    }
-  }
-  calculate(num, str) {
-    context.output += (num * this.multiplier)
-    context.input = context.input.substr(str.length)
-  }
+class TerminalExpression implements AbstractExpression {
+    interpret(context: Context) {}
 }
-```
-```js
-const interpreter = [
-  new Expression('thousand', 'M', ' ', ' ', ' ', 1000),
-  new Expression('hundred', 'C', 'CD', 'D', 'CM', 100),
-  new Expression('ten', 'X', 'XL', 'L', 'XC', 10),
-  new Expression('one', 'I', 'IV', 'V', 'IX', 1)
-];
 
-const roman = 'MCMXXVIII'
-const context = new Context(roman)
-interpreter.forEach(leaf => leaf.interpret(context))
+class NonTerminalExpression implements AbstractExpression {
+    interpret(context: Context) {}
+}
 
-console.log(`${roman} = ${context.output}`)
-// MCMXXVIII = 1928
+class Context {}
 ```
 
 ## 반복자(Iterator)
