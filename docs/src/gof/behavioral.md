@@ -355,53 +355,49 @@ class Main {
 ```
 
 ## 메멘토(Memento)
-캡슐화를 위배하지 않는 채 어떤 객체의 내부 상태를 잡아내고 신체화시켜, 이후에 해당 객체가 그 상태로 다시 되돌아올 수 있도록 하는 패턴이다.
+### 의도
+캡슐화를 위해하지 않은 체 어떤 객체의 내부 상태를 잡아내고 실체화 시켜둠으로써,
+이후 해당 객체가 그 상태로 되돌아 올 수 있도록 합니다.
 
-```js
-class Person {
-  constructor (name, street, city, state) {
-    Object.assign(this, {name, street, city, state})
-  }
-  hydrate () {
-    return JSON.stringify(this)
-  }
-  dehydrate (memento) {
-    const {name, street, city, state} = JSON.parse(memento)
-    Object.assign(this, {name, street, city, state})
-  }
+### 활용성
+- 어떤 객체의 상태에 대한 스냅샷을 저장한 후 나중에 이 상태로 복구해야 할 때
+- 상태를 얻는 데 필요한 직접적인 인터페이스를 두면 그 객체의 구현 세부사항에 드러날 수 밖에 없고,
+이것으로 객체의 캡슐화가 깨질때
+
+### 구조 및 구현
+```ts
+class Memento {
+    private state: unknown
+    constructor(state: unknown) {
+        this.setState(state)
+    }
+    getState() {
+        return this.state
+    }
+    setState(state: unknown) {
+        this.state = state
+    }
 }
 
-class CareTaker {
-  constructor () {
-    this.mementos = new Map()
-  }
-  add (key, memento) {
-    this.mementos.set(key, memento)
-  }
-  get (key) {
-    return this.mementos.get(key)
-  }
+class Originator {
+    private state: unknown
+    constructor() {
+        this.state = ''
+    }
+    createMemento() {
+        return new Memento(this.state)
+    }
+    setMememto(memento: Memento) {
+        this.state = memento.getState()
+    }
 }
-```
-```js
-const mike = new Person('Mike Foley', '1112 Main', 'Dallas', 'TX')
-const john = new Person('John Wang', '48th Street', 'San Jose', 'CA')
-const caretaker = new CareTaker()
 
-// save state
-caretaker.add(1, mike.hydrate())
-caretaker.add(2, john.hydrate())
-
-// mess up their names
-mike.name = 'King Kong'
-john.name = 'Superman'
-
-// restore original state
-mike.dehydrate(caretaker.get(1))
-john.dehydrate(caretaker.get(2))
-
-console.log(mike.name) // Mike Foley
-console.log(john.name) // John Wang
+class Caretaker {
+    constructor(originator: Originator) {
+        const memento = originator.createMemento()
+        originator.setMememto(memento)
+    }
+}
 ```
 
 ## 감시자(Observer)
