@@ -104,104 +104,67 @@ class Main {
    - 어떤 객체가 이 처리에 대한 수신을 담당한다는 것을 명시하지 않으므로 요청이 처리된다는 보장이 없습니다.
 
 ## 명령(Command)
-요청 자체를 캡슐화하는 것입니다. 이를 통해 요청이 서로 다른 사용자를 매개변수로 만들고, 요청을 대기시키거나 로깅하며, 되돌릴 수 있는 연산을 지원합니다.(Action, Transaction)
+### 의도
+요청 자체를 캡슐화하는 것입니다. 이를 통해 요청이 서로 다른 사용자를 매개변수로 만들고, 요청을 대기 시키거나 로깅하여, 되돌릴 수 있는 연산을 지원합니다.
 
-
+### 활용성
 - 수행할 동작을 객체로 매개변수화하고자 할 때
-  - 절차지향 프로그램에서는 이를 콜백 함수, 즉 어딘가 등록되었다가 나중에 호출되는 함수를 사용해서 이러한 매개변수화를 표현할 수 있습니다. 명령 패턴은 콜백을 객체지향 방식으로 나타낸 것입니다.
-- 서로 다른 시간에 요청을 명시하고, 저장하며, 실행하고 싶을 때
-  - Command 객체는 원래의 요청과 다른 생명주기가 있습니다. 요청을 받아 처리하는 객체가 주소 지정 방식과는 독립적으로 표현될 수 있다면, Command 객체를 다른 프로세스에게 넘겨주고 거기서 해당 처리를 진행하게 할 수 있습니다.
-- 실행 취소 기능을 지원하고 싶을 때
-  - Command의 Execute() 연산은 상태를 저장할 수 있는 데, 이를 이용해서 지금까지 얻은 결과를 바꿀 수 있습니다. 이를 위한 Unexecute() 연산을 Command 클래스의 인터페이스에 추가합니다.
-  실행된 명령어를 모두 기록해 두었다가 이 리스트를 역으로 탐색해서 다시 Unexecute()를 수행하게 됩니다. Execute()와 Unexecute() 연산의 반복 사용을 통해 수행과 취소를 무한 반복할 수 있습니다.
-- 기본적인 연산의 조합으로 만든 상위 수준 연산을 써서 시스템을 구조화하고 싶을 때
-  - 정보 시스템의 일반적인 특성은 트랜잭션을 처리해야 한다는 것입니다. 트랜잭션은 일련의 과정을 통해 데이터를 변경하는 것인데, Command 패턴은 이런 트랜잭션의 모델링을 가능하게 합니다.
-  Command 클래스는 일관된 인터페이스를 정의하는 데, 이로써 모든 트랜잭션이 동일한 방식으로 호출됩니다. 새로운 트랜잭션을 만들면 상속으로 Command 클래스를 확장하면 되므로 시스템 확장도 어렵지 않습니다.
-  
-```js
-const add = (x, y) => x + y
-const sub = (x, y) => x - y
-const mul = (x, y) => x * y
-const div = (x, y) => x / y
+  - 절차지향 프로그래밍에서는 이를 콜백 함수, 즉 어딘가 등록되었다가 나중에 호출되는 함수를 사용해서 이러한 매개변수화를 표현할 수 있다.
+  - 명령 패턴은 콜백을 객체지향 방식으로 나타낸 것이다.
+- 서로 다른 시간에 요청을 명시하고, 저장하며, 실행하고 싶을 때.
+- 실행 취소 기능을 지원하고 싶을 때.
+  - Command의 execute() 연산은 상태를 저장할 수 있는 데, 이를 이용해서 지금까지 얻은 결과를 바꿀 수 있다.
+  - 이를 위해 unexecute() 연산을 Command 클래스의 인터페이스에 추가한다.
+- 시스템이 고장 났을 때 재적용이 가능하도록 변경 과정에 대한 로깅을 지원하고 싶을 때.
+  - Command 인터페이스를 확장해서 load()와 store()연산을 정의하면 상태의 변화를 지속적(persistant) 저장소에 저장해 둘 수 있다.
+- 기본적인 연산의 조합으로 만든 상위 수준 연산을 써서 시스템을 구조화하고 싶을 때.
+  - 일련의 과정을 통해 데이터를 변경하는 트랜젝션(transaction)의 모델링을 가능하게 한다.
 
-class Command {
-  constructor (execute, undo, value, name) {
-    this.execute = execute
-    this.undo = undo
-    this.value = value
-    this.name = name
-  }
+### 구조 및 구현
+```ts
+interface Command {
+    execute(): void
 }
 
-class AddCommand {
-  constructor (value) {
-    return new Command(add, sub, value, 'Add')
-  }
+class ConcreteCommand implements Command {
+    private receiver: Receiver
+    constructor(receiver: Receiver) {
+        this.receiver = receiver
+    }
+    execute(): void {
+        console.log('ConcreteCommand Execute')
+        this.receiver.action()
+    }
 }
 
-class SubCommand {
-  constructor (value) {
-    return new Command(sub, add, value, 'Sub')
-  }
+class Receiver {
+    action() {
+        console.log('Receiver Action')
+    }
 }
 
-class MulCommand {
-  constructor (value) {
-    return new Command(mul, div, value, 'Mul')
-  }
-}
+class Invoker {
+    private commands: Command[] = []
 
-class DivCommand {
-  constructor (value) {
-    return new Command(div, mul, value, 'Div')
-  }
-}
-
-class Calculator {
-  constructor () {
-    this.current = 0
-    this.commands = []
-  }
-  action (command) {
-    const name = command.name
-    return `${name.charAt(0).toUpperCase()}${name.slice(1)}`
-  }
-  execute (command) {
-    this.current = command.execute(this.current, command.value)
-    this.commands.push(command)
-    console.log(`${this.action(command)}: ${command.value}`)
-  }
-  undo () {
-    const command = this.commands.pop()
-    this.current = command.undo(this.current, command.value)
-    console.log(`Undo ${this.action(command)}: ${command.value}`)
-  }
-  getCurrentValue () {
-    return this.current
-  }
+    storeCommand(command: Command) {
+        this.commands.push(command)
+        command.execute()
+    }
 }
 ```
-```js
-const calculator = new Calculator()
+#### 사용자측 코드
+```ts
+class Main {
+    constructor() {
+        const receiver = new Receiver()
+        const command = new ConcreteCommand(receiver)
+        const invoker = new Invoker()
 
-calculator.execute(new AddCommand(100))
-calculator.execute(new SubCommand(24))
-calculator.execute(new MulCommand(6))
-calculator.execute(new DivCommand(2))
-
-calculator.undo()
-calculator.undo()
-
-console.log(`Value: ${calculator.getCurrentValue()}`)
-```
-```
-Add: 100
-Sub: 24
-Mul: 6
-Div: 2
-Undo Div: 2
-Undo Mul: 6
-Value: 76
+        invoker.storeCommand(command)
+        // ConcreteCommand Execute
+        // Receiver Action
+    }
+}
 ```
 
 ## 해석자(Interpreter)
