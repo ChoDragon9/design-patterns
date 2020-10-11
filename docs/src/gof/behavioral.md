@@ -262,6 +262,7 @@ class ConcreteInterator implements IteratorInterface {
     }
 }
 ```
+
 #### 사용자측 코드
 ```ts
 class Main {
@@ -280,69 +281,81 @@ class Main {
 ```
 
 ## 중재자(Mediator)
-한 집합에 속해있는 객체들의 상호작용을 캡슐화하는 객체를 정의하는 패턴이다. 객체들이 직접 서로를 참조하지 않도록 함으로써
-객체들 사이의 소결합(loose coupling)을 촉진시키며, 개발자가 객체들의 상호작용을 독립적으로 다양화시킬 수 있게 만든다.
+### 의도
+한 집합에 속해 있는 객체의 상호작용을 캡슐화하는 객체를 정의합니다.
+객체들이 서로를 직접 참조하지 않도록 하여 객체들간의 소결합(Loose Coupling)을 촉진시키며,
+객체들 간의 상호작용을 독립적으로 다양화 시킬 수 있게 합니다.
 
+### 활용성
+- 한 객체가 다른 객체를 너무 많이 참고하고, 너무 많은 의사소통을 수행해서 그 객체를 재사용하기 힘들 때
+- 여러 클래스에 분산된 행동들이 상속없이 상황에 맞게 수정되어야 할 때
+- 여러 객체가 잘 정의된 형태이기는 하지만 복잡한 상호작용을 가질 때
+- 객체간의 의존성이 구조화되지 않으며, 잘 이해하기 어려울 때
 
-```js
-class Participant {
-  constructor (name) {
-    this.name = name
-    this.chatroom = null
-  }
-  send (message, to) {
-    this.chatroom.send(message, this, to)
-  }
-  receive (message, from) {
-    console.log(`${from.name} to ${this.name}: ${message}`)
-  }
+### 구조 및 구현
+```ts
+interface Mediator {
+    colleague1: Colleague
+    colleague2: Colleague
 }
 
-class Chatroom {
-  constructor () {
-    this.participants = new Set()
-  }
-  register (participant) {
-    participant.chatroom = this
-    this.participants.add(participant)
-  }
-  send (message, from, to) {
-    if (to) {                      // single message
-      to.receive(message, from)
-    } else {                       // broadcast message
-      this.participants.forEach((participant) => {
-        if (participant !== from) {
-          participant.receive(message, from)
-        }
-      })
+interface Colleague {
+    mediator: Mediator
+}
+
+class ConcreteMediator implements Mediator {
+    colleague1: ConcreteColleague1
+    colleague2: ConcreteColleague2
+    constructor() {
+        this.colleague1 = new ConcreteColleague1(this)
+        this.colleague2 = new ConcreteColleague2(this)
     }
-  }
+
+    request() {
+        const str = this.colleague1.request()
+        const result = this.colleague2.request(str)
+        
+        console.log(result)
+    }
+}
+
+class ConcreteColleague1 implements Colleague {
+    mediator: Mediator
+    constructor(mediator: Mediator) {
+        this.mediator = mediator
+    }
+    request() {
+        return 'Apple'
+    }
+}
+
+class ConcreteColleague2 implements Colleague {
+    mediator: Mediator
+    constructor(mediator: Mediator) {
+        this.mediator = mediator
+    }
+    request(str: string) {
+        return str.toUpperCase()
+    }
 }
 ```
-```js
-const yoko = new Participant('Yoko')
-const john = new Participant('John')
-const paul = new Participant('Paul')
-const ringo = new Participant('Ringo')
 
-const chatroom = new Chatroom()
+#### 협력방법
+- Colleague는 Mediator에서 요청을 송수신합니다.
+- Mediator는 필요한 Colleague 사이에 요청을 전달할 의무가 있습니다.
 
-chatroom.register(yoko)
-chatroom.register(john)
-chatroom.register(paul)
-chatroom.register(ringo)
-
-yoko.send('All you need is love.')
-yoko.send('I love you John.')
-john.send('Hey, no need to broadcast', yoko)
-paul.send('Ha, I heard that!')
-ringo.send('Paul, what do you think?', paul)
+#### 사용자측 코드
+```ts
+class Main {
+    constructor() {
+        const mediator = new ConcreteMediator()
+        mediator.request() // APPLE
+    }
+}
 ```
-
 
 ## 메멘토(Memento)
 캡슐화를 위배하지 않는 채 어떤 객체의 내부 상태를 잡아내고 신체화시켜, 이후에 해당 객체가 그 상태로 다시 되돌아올 수 있도록 하는 패턴이다.
-
 
 ```js
 class Person {
