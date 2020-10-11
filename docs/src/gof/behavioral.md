@@ -211,79 +211,74 @@ class Context {}
 ```
 
 ## 반복자(Iterator)
-내부 표현부를 노출하지 않고 어떤 객체 집합에 속한 원소들을 순차적으로 접근할 수 있는 방법을 제공하는 패턴이다.
+### 의도
+내부 표현부를 노출하지 않고 어떤 집합 객체에 속한 원소들을 순차적으로 접근할 수 있는 방법을 제공합니다.
 
-* 객체 내부 표현 방식을 모르고도 집합 객체의 각 원소들에 접근하고 싶을 때
-* 집합 객체를 순회하는 다양한 방법을 지원하고 싶을 때
-* 서로 다른 집합 객체 구조에 대해서도 동일한 방법으로 순회하고 싶을 때
+### 활용성
+- 객체 내부 표현 방식을 모르고도 집합 객체의 각 원소들에 접근하고 싶을 때
+- 집합 객체를 순회하는 다양한 방법을 지원하고 싶을 때
+  - 트리를 순회할 때 중위 순회 방식이나 전위 순회 방식등과 같은 순회 알고리즘을 바꿀 수 있다.
+- 서로 다른 집합 객체 구조에 대해서도 동일한 방법으로 순회하고 싶을 때
+ 
+### 구조 및 구현
+> Cursor: Aggregate 클래스에서 순회 알고리즘을 정의하고, Iterator에는 순회의 상태만 저장할 수 있는 데,
+> 이렇게 구현된 Iterator를 Cursor라고 가리킨다.
 
-```js
-class Iterator {
-  constructor (items) {
-    this.index = 0
-    this.items = items
-  }
-  first () {
-    this.index = 0
-  }
-  last () {
-    this.index = this.count() - 1
-  }
-  count () {
-    return this.items.length
-  }
-  next () {
-    if (!this.hasNext()) {
-      throw new Error(`Index is last item. use hasNext method.`)
+```ts
+interface Aggregate {
+    createIterator(): IteratorInterface
+}
+
+interface IteratorInterface {
+    first(): void
+    next(): void
+    isDone(): boolean
+    currentItem(): unknown
+}
+
+class ConcreteAggregate implements Aggregate {
+    createIterator() {
+        return new ConcreteInterator()
     }
-    this.index++
-  }
-  previous () {
-    if (!this.hasPrevious()) {
-      throw new Error(`Index is first item. use hasPrevious method.`)
+}
+
+class ConcreteInterator implements IteratorInterface {
+    private state: number[]
+    private index: number = 0
+    constructor () {
+        this.state = [0, 1, 2]
     }
-    this.index--
-  }
-  hasNext () {
-    return this.index < this.count()
-  }
-  hasPrevious () {
-    return this.index >= 0
-  }
-  currentItem () {
-    return this.items[this.index]
-  }
-  forEach (callback=()=>{}) {
-    for (this.first(); this.hasNext(); this.next()) {
-      callback(this.currentItem())
+    first() {
+        this.index = 0
     }
-  }
-  forEachRight (callback=()=>{}) {
-    for (this.last(); this.hasPrevious(); this.previous()) {
-      callback(this.currentItem())
+    next() {
+        this.index++
     }
-  }
+    isDone() {
+        return this.index > this.state.length
+    }
+    currentItem() {
+        return this.state[this.index]
+    }
 }
 ```
-```js
-const items = ['one', 2, 'circle', true, "Applepie"];
-const iter = new Iterator(items);
+#### 사용자측 코드
+```ts
+class Main {
+    constructor() {
+        const aggregate = new ConcreteAggregate()
+        const iterator = aggregate.createIterator()
 
-iter.forEach(item => console.log(item))
-iter.forEachRight(item => console.log(item))
+        while (!iterator.isDone()) {
+            const item = iterator.currentItem()
+            console.log(item)
+            iterator.next()
+        }
+        // 0 1 2
+    }
+}
 ```
-```
-one
-2
-circle
-true
-Applepie
-Applepie
-true
-circle
-2
-one
-```
+
 ## 중재자(Mediator)
 한 집합에 속해있는 객체들의 상호작용을 캡슐화하는 객체를 정의하는 패턴이다. 객체들이 직접 서로를 참조하지 않도록 함으로써
 객체들 사이의 소결합(loose coupling)을 촉진시키며, 개발자가 객체들의 상호작용을 독립적으로 다양화시킬 수 있게 만든다.
