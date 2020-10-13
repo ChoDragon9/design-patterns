@@ -476,54 +476,62 @@ class Main {
 ```
 
 ## 상태(State)
+### 의도
 객체의 내부 상태에 따라 스스로 행동을 변경할 수 있게끔 허가하는 패턴으로, 이렇게 하면 객체를 마치 자신의 클래스를 바꾸는 것 처럼 보인다.
 
-하나의 객체가 여러가지의 상태가 존재할 때 보통 if/switch 문으로 분기 후 결과를 처리한다.
-신규 상태가 존재할 때 마다 if/switch 코드를 수정해야 함으로 객체의 상태를 클래스화해서 그것을 참조하게 한다.
+### 활용성
+- 객체의 행동이 상태에 따라 달라질수 있고, 객체의 상태에 따라서 런타임에 행동이 바뀌어야 할 때
+- 어떤 연산에 그 객체의 상태에 따라 달라지는 다중 분기 조건 처리가 너무 많이 있을 때
 
-
-```js
-class Red {
-  constructor () {}
-  go(context) {
-    console.log('Red --> for 1 minute')
-    context.setState(new Green())
-  }
+### 구조 및 구현
+```ts
+interface State {
+    handle(): void
 }
 
-class Green {
-  constructor () {}
-  go(context) {
-    console.log('Green --> for 1 minute')
-    context.setState(new Yellow())
-  }
+class Context {
+    private state: State
+
+    constructor(state: State) {
+        this.state = state
+    }
+
+    changeState(state: State) {
+        this.state = state
+    }
+
+    request() {
+        this.state.handle()
+    }
 }
 
-class Yellow {
-  constructor () {}
-  go(context) {
-    console.log('Yellow --> for 10 seconds')
-    context.setState(new Red())
-  }
+class ConcreteStateA implements State {
+    handle() {
+        console.log('ConcreteStateA')
+    }
 }
 
-class TrafficLight {
-  constructor () {
-    this.currentState = new Red()
-  }
-  setState (state) {
-    this.currentState = state
-  }
-  go () {
-    this.currentState.go(this)
-  }
+class ConcreteStateB implements State {
+    handle() {
+        console.log('ConcreteStateB')
+    }
 }
 ```
-```js
-const trafficLight = new TrafficLight()
-trafficLight.go() // Red
-trafficLight.go() // Green
-trafficLight.go() // Yellow
+
+#### 사용자측 코드
+```ts
+class Main {
+    constructor() {
+        const stateA = new ConcreteStateA()
+        const stateB = new ConcreteStateB()
+        const context = new Context(stateA)
+        
+        context.request() // ConcreteStateA
+
+        context.changeState(stateB)
+        context.request() // ConcreteStateB
+    }
+}
 ```
 
 ## 전략(Strategy)
