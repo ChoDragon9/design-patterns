@@ -401,46 +401,78 @@ class Caretaker {
 ```
 
 ## 감시자(Observer)
-객체 사이에 일 대 다의 의존 관계를 정의해 두어, 어떤 객체의 상태가 변할 때 그 객체의 의존성을 가진 다른 객체들이 그 변화를 통지받고 자동으로 갱신될 수 있게 만드는 패턴이다. (Publish-Subscribe 관계)
+### 의도
+객체 사이에 일대 다의 의존 관계를 정의해두어,
+어떤 객체의 상태가 변할 때 그 객체에 의존성을 가진 다른 객체들이 그 변화를 통지 받고 자동으로 갱신될 수 있게 만듭니다.
 
-
+### 활용성
 - 어떤 추상 개념이 두 가지 양상을 갖고 하나가 다른 하나에 종속적일 때. 각 양상을 별도의 객체로 캡슐화하여 이들 각각을 재사용할 수 있습니다.
 - 한 객체에 가해진 변경으로 다른 객체를 변경해야 하고, 프로그래머들은 얼마나 많은 객체들이 변경되어야 하는지 몰라도 될 때
 - 어떤 객체가 다른 객체에 자신의 변화를 통보할 수 있는 데, 그 변화에 관심있어 하는 객체들이 누구인지에 대한 가정 없이도 그러한 통보가 될 때
 
-```js
-class Click {
-  constructor () {
-    this.handlers = new Set();  // observers
-  }
-  subscribe (fn) {
-    this.handlers.add(fn);
-  }
-  unsubscribe (fn) {
-    this.handlers.delete(fn)
-  }
-  fire (str) {
-    this.handlers.forEach(fn => fn(str))
-  }
+### 구조 및 구현
+```ts
+interface Observer {
+    update(): void
+}
+
+abstract class Subject {
+    private observers: Set<Observer> = new Set()
+    
+    attach(observer: Observer) {
+        this.observers.add(observer)
+    }
+    
+    detach(observer: Observer) {
+        this.observers.delete(observer)
+    }
+    
+    notify() {
+        this.observers.forEach(observer => {
+            observer.update()
+        })
+    }
+}
+
+class ConcreteSubject extends Subject {
+    private subjectState = ''
+    getState() {
+        return this.subjectState
+    }
+    setState(state: string) {
+        this.subjectState = state
+    }
+}
+
+class ConcreteObserver implements Observer {
+    private subject: ConcreteSubject
+    private observerState = ''
+    
+    constructor(subject: ConcreteSubject) {
+        this.subject = subject
+        this.subject.attach(this)
+    }
+
+    update() {
+        console.log('updated')
+        this.observerState = this.subject.getState()
+    }
 }
 ```
-```js
-const clickHandler = (item) => console.log(`1 fired: ${item}`)
-const clickHandler2 = (item) => console.log(`2 fired: ${item}`)
 
-const click = new Click();
+#### 사용자측 코드
+```ts
+class Main {
+    constructor() {
+        const subject = new ConcreteSubject()
+        const observer1 = new ConcreteObserver(subject)
+        const observer2 = new ConcreteObserver(subject)
 
-click.subscribe(clickHandler);
-click.subscribe(clickHandler2);
-click.fire('event #1');
-
-click.unsubscribe(clickHandler);
-click.fire('event #2');
-```
-```
-1 fired: event #1
-2 fired: event #1
-2 fired: event #2
+        subject.notify() // updated updated
+        subject.detach(observer1)
+        subject.notify() // updated
+    }
+}
 ```
 
 ## 상태(State)
