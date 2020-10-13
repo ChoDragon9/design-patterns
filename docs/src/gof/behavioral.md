@@ -607,101 +607,109 @@ class Main {
 ```
 
 ## 탬플릿 메소드(Template Method)
+### 의도
 객체의 연산에는 알고리즘의 뼈대만을 정의하고 각 단계에서 수행할 구체적 처리는 서브클래스쪽으로 미루는 패턴이다. 알고리즘의 구조 자체는 그대로 놔둔 채 알고리즘 각 단계의 처리를 서브클래스에서 재정의할 수 있게 한다.
 
+### 활용성
+- 어떤 한 알고리즘을 이루는 부분 중 변하지 않는 부분을 한 번 정의해 놓고 다양해질 수 있는 부분은 서브클래스에서 정의할 수 있도록 남겨두고자 할 때
+- 서브클래스 사이의 공통적인 행동을 추출하여 하나의 공통 클래스에 몰아둠으로써 코드 중복을 피하고 싶을 때
+- 서브클래스의 확장을 제어할 수 있습니다. 템플릿 메서드가 어떤 특정한 시점에 '훅' 연산을 호출하도록 정의함으로써, 그 특정 시점에서만 확장되도록 합니다.
 
-```js
-class AbstractDataStore {
-  process () {
-    this.connect()
-    this.select()
-    this.disconnect()
-    return true
-  } 
+### 구조 및 구현
+```ts
+abstract class AbstractClass {
+    abstract primitiveOperation1(): void
+    abstract primitiveOperation2(): void
+
+    templateMethod() {
+        this.primitiveOperation1()
+        console.log('Something')
+        this.primitiveOperation2()
+    }
 }
 
-class MySQL extends AbstractDataStore {
-  connect () {
-    console.log('MySQL: connect step')
-  }
-  select () {
-    console.log('MySQL: select step')
-  }
-  disconnect () {
-    console.log('MySQL: disconnect step')
-  }
-  process () {
-    super.process()
-  }
+class ConcreteClass extends AbstractClass {
+    primitiveOperation1() {
+        console.log('primitiveOperation1')
+    }
+    primitiveOperation2() {
+        console.log('primitiveOperation2')
+    }
 }
 ```
-```js
-const mySql = new MySQL()
 
-mySql.process()
+#### 사용자측 코드
+```ts
+class Main {
+    constructor() {
+        const concreteClass = new ConcreteClass()
+        concreteClass.templateMethod()
+
+        // primitiveOperation1
+        // Something
+        // primitiveOperation2
+    }
+}
 ```
 
 ## 방문자(Visitor)
+### 의도
 객체 구조를 이루는 원소에 대해 수행할 연산을 표현하는 패턴으로, 연산을 적용할 원소의 클래스를 변경하지 않고도 새로운 연산을 정의할 수 있게 한다.
 
+### 활용성
+- 객체 구조를 정의한 클래스는 거의 변하지 않지만, 전체 구조에 걸쳐 새로운 연산을 추가하고 싶을 
 
-```js
-class Employee {
-  constructor (name, salary, vacation) {
-    this.name = name
-    this.salary = salary
-    this.vacation = vacation
-  }
-  accept (visitor) {
-    visitor.visit(this)
-  }
-  getName () {
-    return this.name
-  }
-  getSalary () {
-    return this.salary
-  }
-  setSalary (sal) {
-    this.salary = sal
-  }
-  getVacation () {
-    return this.vacation
-  }
-  setVacation (vac) {
-    this.vacation = vac
-  }
+### 구조 및 구현
+```ts
+interface ElementClass {
+    accept(visitor: Visitor): void
 }
 
-class ExtraSalary {
-  visit (emp) {
-    emp.setSalary(emp.getSalary() * 1.1)
-  }
+class ConcreteElementA implements ElementClass {
+    accept(visitor: Visitor) {
+        visitor.visitConcreteElementA(this)
+    }
+
+    operationA() {
+        console.log('ConcreteElementA')
+    }
 }
 
-class ExtraVacation {
-  visit (emp) {
-    emp.setVacation(emp.getVacation() + 2)
-  }
+class ConcreteElementB implements ElementClass {
+    accept(visitor: Visitor) {
+        visitor.visitConcreteElementB(this)
+    }
+
+    operationB() {
+        console.log('ConcreteElementB')
+    }
+}
+
+interface Visitor {
+    visitConcreteElementA(element: ElementClass): void
+    visitConcreteElementB(element: ElementClass): void
+}
+
+class ConcreteVisitor implements Visitor {
+    visitConcreteElementA(element: ConcreteElementA) {
+        element.operationA()
+    }
+    visitConcreteElementB(element: ConcreteElementB) {
+        element.operationB()
+    }
 }
 ```
-```js
-const employees = [
-  new Employee('John', 10000, 10),
-  new Employee('Mary', 20000, 21),
-  new Employee('Boss', 250000, 51)
-]
 
-const visitorSalary = new ExtraSalary()
-const visitorVacation = new ExtraVacation()
+#### 사용자측 코드
+```ts
+class Main {
+    constructor() {
+        const visitor = new ConcreteVisitor()
+        const elementA = new ConcreteElementA()
+        const elementB = new ConcreteElementB()
 
-employees.forEach((emp) => {
-  emp.accept(visitorSalary)
-  emp.accept(visitorVacation)
-  console.log(`${emp.getName()}: $${emp.getSalary()} and ${emp.getVacation()} vacation days`)
-})
-```
-```
-John: $11000 and 12 vacation days
-Mary: $22000 and 23 vacation days
-Boss: $275000 and 53 vacation days
+        elementA.accept(visitor) // ConcreteElementA
+        elementB.accept(visitor) // ConcreteElementB
+    }
+}
 ```
