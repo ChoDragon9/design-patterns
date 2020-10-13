@@ -535,67 +535,76 @@ class Main {
 ```
 
 ## 전략(Strategy)
+### 의도
 동일 계열의 알고리즘군을 정의하고, 각각의 알고리즘을 캡슐화하여, 이들을 상호교환이 가능하도록 만드는 패턴이다.
 알고리즘을 사용하는 사용자와 상관없이 독립적으로 알고리즘을 다양하게 변경할 수 있게 한다.
 
+### 활용성
+- 하나의 클래스가 많은 행동을 정의하고, 이런 행동들이 그 클래스의 연산안에서 복잡한 다중 조건문의 모습을 취할 때
+- 행동들이 조금씩 다를 뿐 개념적으로 관련된 많은 클래스들이 존재할 때
+- 알고리즘의 변형이 필요할 때
+- 사용자가 몰라야 하는 데이터를 사용하는 알고리즘이 있을 때
 
-```js
-class Shipping {
-  constructor () {
-    this.company = ''
-  }
-  setStrategy (company) {
-    this.company = company
-  }
-  calculate (baggage) {
-    return this.company.calculate(baggage)
-  }
+### 구조 및 구현
+```ts
+interface Strategy {
+    algorithmInterface(a: number, b: number): unknown
 }
 
-class UPS {
-  constructor () {}
-  calculate (baggage) {
-    // calculations...
-    return '$45.95'
-  }
+class Context {
+    private strategy: Strategy
+
+    constructor(strategy: Strategy) {
+        this.strategy = strategy
+    }
+
+    changeStrategy(strategy: Strategy) {
+        this.strategy = strategy
+    }
+
+    contextInterface() {
+        console.log(this.strategy.algorithmInterface(5, 5))
+    }
 }
 
-class USPS {
-  constructor () {}
-  calculate (baggage) {
-    // calculations...
-    return '$39.40'
-  }
+class ConcreteStrategyA implements Strategy {
+    algorithmInterface(a: number, b: number) {
+        return a * b
+    }
 }
 
-class Fedex {
-  constructor () {}
-  calculate (baggage) {
-    // calculations...
-    return '$43.20'
-  }
+class ConcreteStrategyB implements Strategy {
+    algorithmInterface(a: number, b: number) {
+        return a + b
+    }
+}
+
+class ConcreteStrategyC implements Strategy {
+    algorithmInterface(a: number, b: number) {
+        return a - b
+    }
 }
 ```
-```js
-const baggage = { from: '76712', to: '10012', weigth: 'lkg' }
 
-// the 3 strategies
-const ups = new UPS()
-const usps = new USPS()
-const fedex = new Fedex()
+#### 사용자측 코드
+```ts
+class Main {
+    constructor() {
+        const concreteStrategyA = new ConcreteStrategyA()
+        const concreteStrategyB = new ConcreteStrategyB()
+        const concreteStrategyC = new ConcreteStrategyC()
+        const context = new Context(concreteStrategyA)
 
-const shipping = new Shipping()
+        context.contextInterface() // 25
 
-shipping.setStrategy(ups)
-console.log(`UPS Strategy: ${shipping.calculate(baggage)}`)
+        context.changeStrategy(concreteStrategyB)
+        context.contextInterface() // 10
 
-shipping.setStrategy(usps)
-console.log(`USPS Strategy: ${shipping.calculate(baggage)}`)
-
-shipping.setStrategy(fedex)
-console.log(`Fedex Strategy: ${shipping.calculate(baggage)}`)
+        context.changeStrategy(concreteStrategyC)
+        context.contextInterface() // 0
+    }
+}
 ```
-
 
 ## 탬플릿 메소드(Template Method)
 객체의 연산에는 알고리즘의 뼈대만을 정의하고 각 단계에서 수행할 구체적 처리는 서브클래스쪽으로 미루는 패턴이다. 알고리즘의 구조 자체는 그대로 놔둔 채 알고리즘 각 단계의 처리를 서브클래스에서 재정의할 수 있게 한다.
