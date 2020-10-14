@@ -62,13 +62,15 @@ interface Target {
 }
 
 class Adaptee {
-    specificRequest() {}
+    specificRequest() {
+        console.log('Adaptee')
+    }
 }
 
 class Adapter implements Target {
-    private adaptee!: Adaptee
-    constructor () {
-        this.adaptee = new Adaptee()
+    private adaptee: Adaptee
+    constructor (adaptee: Adaptee) {
+        this.adaptee = adaptee
     }
     request() {
         this.adaptee.specificRequest()
@@ -80,8 +82,9 @@ class Adapter implements Target {
 class Main {
     target: Target
     constructor () {
-        this.target = new Adapter()
-        this.target.request()
+        const adaptee = new Adaptee()
+        this.target = new Adapter(adaptee)
+        this.target.request() // Adaptee
     }
 }
 ```
