@@ -101,13 +101,15 @@ interface Implementor {
 }
 
 class ConcreteImplementor implements Implementor {
-    operationImp() {}
+    operationImp() {
+        console.log('ConcreteImplementor')
+    }
 }
 
 class Abstraction {
     private imp: Implementor
-    constructor() {
-        this.imp = new ConcreteImplementor()
+    constructor(imp: Implementor) {
+        this.imp = imp
     }
     operation() {
         this.imp.operationImp()
@@ -120,8 +122,9 @@ class Abstraction {
 class Main {
     abstraction: Abstraction
     constructor () {
-        this.abstraction = new Abstraction()
-        this.abstraction.operation()
+        const imp = new ConcreteImplementor()
+        this.abstraction = new Abstraction(imp)
+        this.abstraction.operation() // ConcreteImplementor
     }
 }
 ```
